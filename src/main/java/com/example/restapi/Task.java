@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import org.springframework.lang.NonNull;
 
 // The model, it represents the to do items(task object)
 // This model is used in the Repository. It's the object that is handled there.
@@ -12,8 +13,10 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    @NonNull
     private String tittle;
     private String description;
+    @NonNull
     private Boolean completed;
 
     public long getId() {
