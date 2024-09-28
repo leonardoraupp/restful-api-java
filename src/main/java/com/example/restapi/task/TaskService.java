@@ -1,4 +1,4 @@
-package com.example.restapi;
+package com.example.restapi.task;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import java.util.List;
 // because it is the oject being handled in the operations.
 @Service
 public class TaskService {
-    @Autowired
+    @Autowired // Spring manages this bean (Dependency Injection).
     private TaskRepository taskRepository;
 
     public List<Task> getAllTasks() {

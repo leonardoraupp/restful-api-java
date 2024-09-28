@@ -1,4 +1,4 @@
-package com.example.restapi;
+package com.example.restapi.task;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/tasks")
 public class TaskController {
-    @Autowired
+    @Autowired // Spring manages this bean.
     private TaskService taskService;
 
     @GetMapping

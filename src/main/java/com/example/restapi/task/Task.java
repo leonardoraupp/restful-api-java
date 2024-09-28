@@ -1,4 +1,4 @@
-package com.example.restapi;
+package com.example.restapi.task;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
