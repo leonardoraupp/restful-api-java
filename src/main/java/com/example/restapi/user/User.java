@@ -25,6 +25,15 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    public User(Integer id, @Nonnull String name, @Nonnull String lastName, @Nonnull String email, @Nonnull String password, Role role) {
+        this.id = id;
+        this.name = name;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
     public Integer getId() {
         return id;
     }

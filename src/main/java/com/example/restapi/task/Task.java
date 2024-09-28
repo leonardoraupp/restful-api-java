@@ -19,6 +19,13 @@ public class Task {
     @NonNull
     private Boolean completed;
 
+    public Task(long id, @NonNull String tittle, String description, @NonNull Boolean completed) {
+        this.id = id;
+        this.tittle = tittle;
+        this.description = description;
+        this.completed = completed;
+    }
+
     public long getId() {
         return id;
     }
