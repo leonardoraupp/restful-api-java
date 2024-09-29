@@ -1,4 +1,4 @@
-package com.example.restapi;
+package com.example.restapi.config;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -6,12 +6,14 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
-public class JwtUtil {
+@Service
+public class JwtService {
 
-    private String secretKey = "noneyet";
+    private String secretKey = System.getenv("SECRET_KEY");
     private Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
     //create a JWT
@@ -43,5 +45,9 @@ public class JwtUtil {
 
         }
         return null;
+    }
+
+    public String getUsername(String token) {
+        return JWT.decode(token).getSubject(); // get the username
     }
 }
