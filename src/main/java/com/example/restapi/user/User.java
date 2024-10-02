@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
+@Table(name="\"user\"") // it avoids conflicts with the sql reserved word(user).
 public class User implements UserDetails {
     @Id
     @GeneratedValue //  auto strategy
@@ -25,6 +26,7 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    public User() {}
     public User(Integer id, @Nonnull String name, @Nonnull String lastName, @Nonnull String email, @Nonnull String password, Role role) {
         this.id = id;
         this.name = name;
@@ -58,6 +60,7 @@ public class User implements UserDetails {
         this.lastName = lastName;
     }
 
+    @Nonnull
     public String getEmail() {
         return email;
     }
@@ -71,6 +74,7 @@ public class User implements UserDetails {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
+    @Nonnull
     public String getPassword() {
         return password;
     }
@@ -100,7 +104,7 @@ public class User implements UserDetails {
         return UserDetails.super.isEnabled();
     }
 
-    public void setPassword(String password) {
+    public void setPassword(@Nonnull String password) {
         this.password = password;
     }
 }

@@ -6,6 +6,8 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
+import io.github.cdimascio.dotenv.Dotenv;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -13,7 +15,8 @@ import java.util.Date;
 @Service
 public class JwtService {
 
-    private String secretKey = System.getenv("SECRET_KEY");
+    Dotenv dotenv = Dotenv.load();
+    private String secretKey = dotenv.get("SECRET_KEY");
     private Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
     //create a JWT
