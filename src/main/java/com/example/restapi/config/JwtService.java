@@ -3,11 +3,12 @@ package com.example.restapi.config;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import io.github.cdimascio.dotenv.Dotenv;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -19,7 +20,7 @@ public class JwtService {
     private String secretKey = dotenv.get("SECRET_KEY");
     private Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
-    //create a JWT
+//    //create a JWT
     public String generateToken(String subject) {
         String token = null;
         try {
@@ -37,7 +38,6 @@ public class JwtService {
         return null;
     }
 
-
     //verify a JWT
     public DecodedJWT verifyToken(String token) {
         try {
@@ -50,7 +50,30 @@ public class JwtService {
         return null;
     }
 
-    public String getUsername(String token) {
+
+    public String getUsername(String token) { // extract username
         return JWT.decode(token).getSubject(); // get the username
+    }
+
+    public String getClaims(String token) {
+        try {
+            return JWT.decode(token).getPayload();
+        } catch (JWTDecodeException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public Boolean isTokenExpired(String token) {
+        return JWT.decode(token).getExpiresAt().before(new Date());
+    }
+
+    public Boolean isTokenValid(String token, UserDetails userDetails) {
+        final String username = getUsername(token);
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+
+    public  Date getExpiration(String token) { // get the expiration time.
+        return JWT.decode(token).getExpiresAt();
     }
 }
