@@ -21,12 +21,12 @@ public class JwtService {
     private Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
 //    //create a JWT
-    public String generateToken(String subject) {
+    public String generateToken(UserDetails userDetails) {
         String token = null;
         try {
             return token = JWT.create()
                     .withIssuer("auth0") //  Identifica a entidade principal que emitiu o JWT.
-                    .withSubject(subject) // Identifica o usuário do JWT.
+                    .withSubject(userDetails.getUsername()) // Identifica o usuário do JWT.
                     .withIssuedAt(new Date()) // Data de emissão do JWT.
                     .withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10h de expiração do JWT.
                     .sign(algorithm); // Algoritmo de que criptografa o payload(os clains).

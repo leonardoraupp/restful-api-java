@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name="\"user\"") // it avoids conflicts with the sql reserved word(user).
+@Table(name = "\"user\"") // it avoids conflicts with the sql reserved word(user).
 public class User implements UserDetails {
     @Id
     @GeneratedValue //  auto strategy
@@ -26,48 +26,64 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User() {}
-    public User(Integer id, @Nonnull String name, @Nonnull String lastName, @Nonnull String email, @Nonnull String password, Role role) {
-        this.id = id;
-        this.name = name;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.role = role;
+    // Private constructor to enforce the use of the builder
+    private User(UserBuilder builder) {
+        this.id = builder.id;
+        this.name = builder.name;
+        this.lastName = builder.lastName;
+        this.email = builder.email;
+        this.password = builder.password;
+        this.role = builder.role;
     }
 
-    public Integer getId() {
-        return id;
+    public User() {
+
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public static class UserBuilder {
+        private Integer id;
+        private String name;
+        private String lastName;
+        private String email;
+        private String password;
+        private Role role;
+
+        public UserBuilder id(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public UserBuilder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public UserBuilder lastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public UserBuilder email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public UserBuilder password(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public UserBuilder role(Role role) {
+            this.role = role;
+            return this;
+        }
+
+        public User build() {
+            return new User(this);
+        }
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    @Nonnull
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    // Getters and other methods...
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -86,25 +102,21 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
-    }
-
-    public void setPassword(@Nonnull String password) {
-        this.password = password;
+        return true;
     }
 }
